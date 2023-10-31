@@ -1,0 +1,57 @@
+#include<stdio.h>
+void dijkstras(int n,int cost[][20],int src,int dis[20])
+{
+   int i,v,count=1,min,visited[20];
+   for(i=1;i<=n;i++)
+   {
+      visited[i]=0;
+      dis[i]=cost[src][i];
+   }
+   visited[src]=1;
+   dis[src]=0;
+   while(count<=n)
+   {
+      min=9999;
+      for(i=1;i<=n;i++)
+      {
+         if(dis[i]<min && visited[i]==0)
+         {
+            min=dis[i];
+            v=i;
+         }
+      }
+      visited[v]=1;
+      count++;
+      for(i=1;i<=n;i++)
+      {
+         if(dis[i]>dis[v]+cost[v][i])
+            dis[i]=dis[v]+cost[v][i];
+      }
+   }
+}
+int main()
+{
+        int i,j,n,src,cost[20][20],dis[20];
+        printf("Enter Number of Nodes :");
+        scanf("%d",&n);
+        printf("Enter cost matrix :");
+        for(i=1;i<=n;i++)
+        {
+           for(j=1;j<=n;j++)
+           {
+              scanf("%d",&cost[i][j]);
+              if(cost[i][j]==0)
+                 cost[i][j]=9999;
+           }
+        }
+        printf("Enter source vertex :");
+        scanf("%d",&src);
+        dijkstras(n,cost,src,dis);
+        printf("Shortest path from %d to all other vertices ...\n",src);
+        for(i=1;i<=n;i++)
+        {
+           if(src!=i)
+              printf("%d->%d=%d\n",src,i,dis[i]);
+        }
+        return 0;
+}
